@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.zhaw.freelancer4u.model.Job;
@@ -30,7 +31,7 @@ public class JobController {
     }
 
     @GetMapping("/job")
-    public ResponseEntity<List<Job>> getAllJobs() {
+    public ResponseEntity<List<Job>> getAllJobs(@RequestParam(required = false) Double min) {
         List<Job> allJobs = jobRepository.findAll();
         return new ResponseEntity<>(allJobs, HttpStatus.OK);
     }
