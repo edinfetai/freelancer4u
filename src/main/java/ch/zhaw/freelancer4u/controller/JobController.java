@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.zhaw.freelancer4u.model.Job;
 import ch.zhaw.freelancer4u.model.JobCreateDTO;
+import ch.zhaw.freelancer4u.model.JobStateAggregation;
 import ch.zhaw.freelancer4u.repository.JobRepository;
 
 @RestController
@@ -34,5 +35,10 @@ public class JobController {
     public ResponseEntity<List<Job>> getAllJobs(@RequestParam(required = false) Double min) {
         List<Job> allJobs = jobRepository.findAll();
         return new ResponseEntity<>(allJobs, HttpStatus.OK);
+    }
+
+    @GetMapping("/job/aggregation/state")
+    public List<JobStateAggregation> getJobStateAggregation() {
+        return jobRepository.getJobStateAggregation();
     }
 }
