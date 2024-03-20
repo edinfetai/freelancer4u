@@ -1,14 +1,28 @@
 package ch.zhaw.freelancer4u.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-// TODO: Lombok-Annotationen für Konstruktor ergänzen
+@RequiredArgsConstructor
+@NoArgsConstructor
 @Document("job")
 public class Job {
-    // TODO: Restliche Attribute ergänzen
-    private JobStage jobState = JobStage.NEW;
+    @Id
+    private String id;
+    @NonNull
+    private String description;
+    @NonNull
+    private JobType jobType;
+    @NonNull
+    private Double earnings;
+    private JobState jobState = JobState.NEW;
+    private String freelancerId;
 }

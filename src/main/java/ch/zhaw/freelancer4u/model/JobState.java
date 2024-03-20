@@ -1,5 +1,5 @@
 package ch.zhaw.freelancer4u.model;
 
-public enum JobStage {
+public enum JobState {
     NEW, ASSIGNED, DONE
 }
