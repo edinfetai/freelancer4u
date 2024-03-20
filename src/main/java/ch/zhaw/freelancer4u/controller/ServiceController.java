@@ -29,4 +29,15 @@ public class ServiceController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+    @PutMapping("/completejob")
+    public ResponseEntity<?> completeJob(@RequestBody JobStateChangeDTO jobStateChangeDTO) {
+        Optional<Job> completedJob = jobService.completeJob(jobStateChangeDTO.getJobId(), jobStateChangeDTO.getFreelancerEmail());
+
+        if (!completedJob.isPresent()) {
+            return ResponseEntity.badRequest().build(); // BAD_REQUEST for all validation failures
+        }
+
+        return ResponseEntity.ok(completedJob.get());
+    }
 }

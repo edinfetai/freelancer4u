@@ -43,4 +43,28 @@ public class JobService {
         jobRepository.save(job);
         return Optional.of(job);
     }
+
+    public Optional<Job> completeJob(String jobId, String freelancerEmail) {
+        Optional<Job> jobToComplete = jobRepository.findById(jobId);
+        if (!jobToComplete.isPresent()) {
+            return Optional.empty(); // Check if the job ID is valid
+        }
+    
+        Job job = jobToComplete.get();
+        if (job.getJobState() != JobState.ASSIGNED) {
+            return Optional.empty(); // Check if the job is in the ASSIGNED state
+        }
+    
+        if (!freelancerEmail.equals(job.getFreelancerId())) {
+            return Optional.empty(); // Check if the job is assigned to the freelancer with this email
+        }
+    
+        // Update the job state to DONE
+        job.setJobState(JobState.DONE);
+    
+        // Save the updated job and return it as Optional
+        jobRepository.save(job);
+        return Optional.of(job);
+    }
+    
 }
