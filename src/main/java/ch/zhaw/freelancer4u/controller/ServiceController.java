@@ -1,6 +1,7 @@
 package ch.zhaw.freelancer4u.controller;
 
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import ch.zhaw.freelancer4u.service.JobService;
 @RestController
 @RequestMapping("/api/service")
 public class ServiceController {
-
+    
     @Autowired
     JobService jobService;
 
@@ -25,19 +26,19 @@ public class ServiceController {
         String jobId = changeS.getJobId();
         Optional<Job> job = jobService.assignJob(jobId, freelancerEmail);
         if (job.isPresent()) {
-            return new ResponseEntity<>(job.get(), HttpStatus.OK);
+            return new ResponseEntity<>(job.get(), HttpStatus.OK); 
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/completejob")
-    public ResponseEntity<?> completeJob(@RequestBody JobStateChangeDTO jobStateChangeDTO) {
-        Optional<Job> completedJob = jobService.completeJob(jobStateChangeDTO.getJobId(), jobStateChangeDTO.getFreelancerEmail());
-
-        if (!completedJob.isPresent()) {
-            return ResponseEntity.badRequest().build(); // BAD_REQUEST for all validation failures
+    public ResponseEntity<Job> completeJob(@RequestBody JobStateChangeDTO changeS) {
+        String freelancerEmail = changeS.getFreelancerEmail();
+        String jobId = changeS.getJobId();
+        Optional<Job> job = jobService.completeJob(jobId, freelancerEmail);
+        if (job.isPresent()) {
+            return new ResponseEntity<>(job.get(), HttpStatus.OK); 
         }
-
-        return ResponseEntity.ok(completedJob.get());
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
